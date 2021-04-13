@@ -54,33 +54,31 @@ const  App = () =>  {
   return (
     <>
     <GlobalStyle></GlobalStyle>
+    {isLoading && <Loading></Loading>}
+    {!isLoading  && 
     <Wrapper>
-      {isLoading && <Loading></Loading>}
-      {!isLoading && 
-      <>
-        <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
-          <Cart cartItems={cartItems} 
-            addToCart={handleAddToCart}
-            removeFromCart={handleRemoveFromCart}
-          />
-        </Drawer>
-        <WrapperButton>
-        <StyledButton onClick={() => setCartOpen(true)}>
-          <Badge badgeContent={getTotalItems(cartItems)} color='error' >
-            <AddShoppingCartIcon></AddShoppingCartIcon>
-          </Badge>
-        </StyledButton>
-        </WrapperButton>
-        <Grid container spacing={3}>
-          {data?.map(item => (
-            <Grid key={item.id} xs={12} sm={6} lg={4}>
-                <Item item={item} handleAddToCart={handleAddToCart}></Item>
-            </Grid>
-          ))}
-        </Grid>
-      </>
-      }
-    </Wrapper>
+      <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
+        <Cart cartItems={cartItems} 
+          addToCart={handleAddToCart}
+          removeFromCart={handleRemoveFromCart}
+        />
+      </Drawer>
+      <WrapperButton>
+      <StyledButton onClick={() => setCartOpen(true)}>
+        <Badge badgeContent={getTotalItems(cartItems)} color='error' >
+          <AddShoppingCartIcon></AddShoppingCartIcon>
+        </Badge>
+      </StyledButton>
+      </WrapperButton>
+      <Grid container spacing={3}>
+        {data?.map(item => (
+          <Grid key={item.id} xs={12} sm={6} lg={4}>
+              <Item item={item} handleAddToCart={handleAddToCart}></Item>
+          </Grid>
+        ))}
+      </Grid>
+  </Wrapper>
+    }
     </>
   );
 }
