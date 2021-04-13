@@ -3,13 +3,13 @@ import { useQuery } from 'react-query';
 import { getProducts } from './API';
 import { CartItemType } from './App.types';
 import Cart from './components/Cart';
-import { Wrapper , StyledButton} from './App.styles'
+import { Wrapper , StyledButton , GlobalStyle , WrapperButton} from './App.styles'
 import Badge from '@material-ui/core/Badge'
-import LinearProgress from '@material-ui/core/LinearProgress'
 import Drawer from '@material-ui/core/Drawer'
 import Grid from '@material-ui/core/Grid'
 import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart'
 import Item from './components/Item';
+import Loading from './components/Loading'
 
 const  App = () =>  {
   const [cartOpen, setCartOpen] = useState(false)
@@ -49,29 +49,39 @@ const  App = () =>  {
     )
   }
 
-  if (isLoading) return <LinearProgress></LinearProgress>
+
   if (error) return <div>Something went wrong</div>
   return (
+    <>
+    <GlobalStyle></GlobalStyle>
     <Wrapper>
-      <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
-        <Cart cartItems={cartItems} 
-          addToCart={handleAddToCart}
-          removeFromCart={handleRemoveFromCart}
-        />
-      </Drawer>
-      <StyledButton onClick={() => setCartOpen(true)}>
-        <Badge badgeContent={getTotalItems(cartItems)} color='error' >
-           <AddShoppingCartIcon></AddShoppingCartIcon>
-        </Badge>
-      </StyledButton>
-      <Grid container spacing={3}>
-        {data?.map(item => (
-          <Grid key={item.id} xs={12} sm={6} lg={4}>
-              <Item item={item} handleAddToCart={handleAddToCart}></Item>
-          </Grid>
-        ))}
-      </Grid>
+      {isLoading && <Loading></Loading>}
+      {!isLoading && 
+      <>
+        <Drawer anchor='right' open={cartOpen} onClose={() => setCartOpen(false)}>
+          <Cart cartItems={cartItems} 
+            addToCart={handleAddToCart}
+            removeFromCart={handleRemoveFromCart}
+          />
+        </Drawer>
+        <WrapperButton>
+        <StyledButton onClick={() => setCartOpen(true)}>
+          <Badge badgeContent={getTotalItems(cartItems)} color='error' >
+            <AddShoppingCartIcon></AddShoppingCartIcon>
+          </Badge>
+        </StyledButton>
+        </WrapperButton>
+        <Grid container spacing={3}>
+          {data?.map(item => (
+            <Grid key={item.id} xs={12} sm={6} lg={4}>
+                <Item item={item} handleAddToCart={handleAddToCart}></Item>
+            </Grid>
+          ))}
+        </Grid>
+      </>
+      }
     </Wrapper>
+    </>
   );
 }
 
