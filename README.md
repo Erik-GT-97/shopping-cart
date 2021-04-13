@@ -21,7 +21,10 @@ Para realizar peticiones
     ```
     npm install react-query
     ```
-    
+
+## Recursos
+
+Se utilizo la API de [FAKE STORE API](https://fakestoreapi.com/).
 ## Scripts disponibles
 
 En el directorio del proyecto, puedes ejecutar:
